@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "956763978510",
+    "project_id": "unicall-17198",
+    "storage_bucket": "unicall-17198.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956763978510:android:f5de5692daf0ebfdc6355f",
+        "android_client_info": {
+          "package_name": "com.example.unicall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956763978510-4973pv034kqnhe32rnivkmaqftct49st.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALEGfN_f3IlmEerFuO7SCb-4mE_yj_3SY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956763978510-4973pv034kqnhe32rnivkmaqftct49st.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "956763978510-6pf66nsmo36s9f867q94qvj7mph9r9ga.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.unicall"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

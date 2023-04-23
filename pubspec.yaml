@@ -1,0 +1,26 @@
+name: unicall
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  cloud_firestore: ^4.5.2
+  firebase_core: ^2.10.0
+  flutter:
+    sdk: flutter
+  scaffold_gradient_background: ^1.0.3+1
+  uuid: ^3.0.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/logo.jpeg
