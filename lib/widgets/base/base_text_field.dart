@@ -19,6 +19,7 @@ class BaseTextField extends StatelessWidget {
     return Container(
       margin: margin,
       child: TextFormField(
+
         validator:  validator,
         controller: controller,
         decoration: InputDecoration(

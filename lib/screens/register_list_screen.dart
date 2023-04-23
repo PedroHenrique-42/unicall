@@ -4,8 +4,10 @@ import 'package:unicall/constants/strings.dart';
 import 'package:unicall/dao/registers_dao.dart';
 import 'package:unicall/models/RegisterModel.dart';
 import 'package:unicall/screens/register_screen.dart';
+import 'package:unicall/utils/show_base_dialog.dart';
 import 'package:unicall/widgets/base/base_layout.dart';
 import 'package:unicall/widgets/base/base_list_card.dart';
+import 'package:unicall/widgets/base/base_richtext.dart';
 
 class ListRegistersScreen extends StatefulWidget {
   const ListRegistersScreen({super.key});
@@ -37,16 +39,38 @@ class _ListRegistersScreenState extends State<ListRegistersScreen> {
                       content: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Nome do cliente: ${actualModel.name}"),
-                          Text("Endereço do cliente: ${actualModel.address}"),
-                          Text("Tipo de instalação: ${actualModel.service}"),
-                          Text("Data da instalação: ${actualModel.date}"),
+                          BaseRichText(
+                            baseText: "Nome do cliente: ",
+                            contentText: actualModel.name,
+                          ),
+                          BaseRichText(
+                            baseText: "Endereço do cliente: ",
+                            contentText: actualModel.address,
+                          ),
+                          BaseRichText(
+                            baseText: "Complemento (Número, apto): ",
+                            contentText: actualModel.complement,
+                          ),
+                          BaseRichText(
+                            baseText: "Serviço: ",
+                            contentText: actualModel.service,
+                          ),
+                          BaseRichText(
+                            baseText: "Data da instalação: ",
+                            contentText: actualModel.date,
+                          ),
                         ],
                       ),
-                      deleteFunc: () {
-                        dao.remove(actualModel);
+                      deleteFunc: () async {
+                        bool remove = await showBaseDialog(
+                          context,
+                          dialogRemoveMessage,
+                        );
 
-                        setState(() {});
+                        if (remove) {
+                          dao.remove(actualModel);
+                          setState(() {});
+                        }
                       },
                       editFunc: () {
                         Navigator.pushReplacement(

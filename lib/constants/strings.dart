@@ -14,3 +14,5 @@ const homeScreenButtonText = "Cadastrar";
 const listScreenNoRegistersText = "Nenhum registro";
 
 const firestoreCollectionPath = "registros";
+
+const dialogRemoveMessage = "Deseja realmente remover esse registro?";

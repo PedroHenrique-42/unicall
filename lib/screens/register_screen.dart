@@ -9,30 +9,47 @@ import 'package:unicall/widgets/base/base_layout.dart';
 import 'package:unicall/widgets/base/base_text_field.dart';
 import 'package:uuid/uuid.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   final RegisterModel? model;
   final String action;
   final int? index;
 
-  RegisterScreen({this.model, required this.action, this.index, super.key});
+  const RegisterScreen({this.model, required this.action, this.index, super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+
   final TextEditingController _nameController = TextEditingController();
+
   final TextEditingController _addressController = TextEditingController();
+
+  final TextEditingController _complementController = TextEditingController();
+
   final TextEditingController _serviceController = TextEditingController();
+
   final TextEditingController _dateController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    if (model != null) {
-      setFieldValue(_nameController, model!.name);
-      setFieldValue(_addressController, model!.address);
-      setFieldValue(_serviceController, model!.service);
-      setFieldValue(_dateController,  model!.date);
-    }
+  void initState() {
+    super.initState();
 
+    if(widget.model != null) {
+      setFieldValue(_nameController, widget.model!.name);
+      setFieldValue(_addressController, widget.model!.address);
+      setFieldValue(_complementController, widget.model!.complement);
+      setFieldValue(_serviceController, widget.model!.service);
+      setFieldValue(_dateController, widget.model!.date);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BaseLayout(
-      appBarTitle: action,
+      appBarTitle: widget.action,
       body: SingleChildScrollView(
         child: BaseCard(
           width: MediaQuery.of(context).size.width * 0.8,
@@ -68,6 +85,17 @@ class RegisterScreen extends StatelessWidget {
               ),
               BaseTextField(
                 margin: const EdgeInsets.only(bottom: 20),
+                controller: _complementController,
+                text: "Digite o complemento",
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return "Campo obrigatório";
+                  }
+                  return null;
+                },
+              ),
+              BaseTextField(
+                margin: const EdgeInsets.only(bottom: 20),
                 controller: _serviceController,
                 text: "Digite o serviço",
                 validator: (String? value) {
@@ -90,31 +118,32 @@ class RegisterScreen extends StatelessWidget {
               ),
               SizedBox(
                 width: 120,
-                child: BaseButton(action, () {
+                child: BaseButton(widget.action, () {
                   if (_formKey.currentState!.validate()) {
                     RegistersDao dao = RegistersDao.getInstance();
 
-                    if (action == registerAction) {
+                    if (widget.action == registerAction) {
                       dao.add(RegisterModel(
-                        const Uuid().v1().toString(),
-                        _nameController.text,
-                        _addressController.text,
-                        _serviceController.text,
-                        _dateController.text,
+                        id: const Uuid().v1().toString(),
+                        name: _nameController.text,
+                        address: _addressController.text,
+                        complement: _complementController.text,
+                        service: _serviceController.text,
+                        date: _dateController.text,
                       ));
 
                       clearForm();
                       showSnackBar(context, "cadastrado");
-                    } else if (action == editAction) {
+                    } else if (widget.action == editAction) {
                       dao.edit(RegisterModel(
-                        model!.id,
-                        _nameController.text,
-                        _addressController.text,
-                        _serviceController.text,
-                        _dateController.text,
+                        id: widget.model!.id,
+                        name: _nameController.text,
+                        address: _addressController.text,
+                        complement: _complementController.text,
+                        service: _serviceController.text,
+                        date: _dateController.text,
                       ));
 
-                      // clearForm();
                       showSnackBar(context, "editado");
                     }
                   }
@@ -130,15 +159,16 @@ class RegisterScreen extends StatelessWidget {
   setFieldValue(TextEditingController controller, String text) {
     controller.value = TextEditingValue(
       text: text,
-      selection: TextSelection.fromPosition(
-        TextPosition(offset: text.length),
-      ),
     );
+
+    controller.selection =
+        TextSelection.collapsed(offset: controller.text.length);
   }
 
   clearForm() {
     _nameController.text = "";
     _addressController.text = "";
+    _complementController.text = "";
     _serviceController.text = "";
     _dateController.text = "";
   }

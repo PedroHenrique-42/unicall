@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:unicall/constants/strings.dart';
 import 'package:unicall/models/RegisterModel.dart';
 
 class RegistersDao {
@@ -12,7 +13,7 @@ class RegistersDao {
   Future<List<RegisterModel>> loadRegisters() async {
     _list.clear();
 
-    var fireBaseList = await firestore.collection("registros").get();
+    var fireBaseList = await firestore.collection(firestoreCollectionPath).get();
 
     for (var doc in fireBaseList.docs) {
       _list.add(RegisterModel.fromMap(doc.data()));
@@ -34,6 +35,7 @@ class RegistersDao {
       "id": model.id,
       "nomeCliente": model.name,
       "enderecoCliente": model.address,
+      "complemento" : model.complement,
       "tipoInstalacao": model.service,
       "dataInstalacao": model.date,
     });
@@ -46,6 +48,6 @@ class RegistersDao {
   void edit(RegisterModel model) async {
     await firestore.collection("registros").doc(model.id).update(
           RegisterModel.toMap(model),
-        );
+        ).then((value) => print("editado"));
   }
 }
