@@ -1,10 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:unicall/constants/routes.dart';
+import 'package:unicall/constants/navigation_routes.dart';
 import 'package:unicall/screens/home_screen.dart';
 import 'package:unicall/screens/register_list_screen.dart';
-import 'package:unicall/screens/register_screen.dart';
 import 'package:unicall/themes/main_light_theme.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
@@ -27,7 +27,6 @@ class MainApp extends StatelessWidget {
       theme: mainLightTheme,
       routes: {
         homeScreen: (context) => const HomeScreen(),
-        registerScreen: (context) => RegisterScreen(),
         registerListScreen: (context) => const ListRegistersScreen(),
       },
     );

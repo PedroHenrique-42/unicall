@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unicall/constants/base_colors.dart';
-import 'package:unicall/constants/routes.dart';
+import 'package:unicall/constants/navigation_routes.dart';
+import 'package:unicall/constants/strings.dart';
 import 'package:unicall/screens/register_screen.dart';
 
 class BaseDrawer extends StatelessWidget {
@@ -16,7 +17,7 @@ class BaseDrawer extends StatelessWidget {
             const SizedBox(height: 20),
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset("assets/images/logo.jpeg", height: 100),
+              child: Image.asset(logoPath, height: 100),
             ),
             ListTile(
               onTap: () {
@@ -28,7 +29,7 @@ class BaseDrawer extends StatelessWidget {
                 color: secondaryBlue,
               ),
               title: Text(
-                "Início",
+                baseDrawerHomeScreenText,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
@@ -39,7 +40,7 @@ class BaseDrawer extends StatelessWidget {
                 Navigator.pushReplacement(context, MaterialPageRoute(
                   builder: (context) {
                     return RegisterScreen(
-                      action: "Cadastrar",
+                      action: registerAction,
                     );
                   },
                 ));
@@ -49,7 +50,7 @@ class BaseDrawer extends StatelessWidget {
                 color: secondaryBlue,
               ),
               title: Text(
-                "Cadastro",
+                baseDrawerRegisterScreenText,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
@@ -64,7 +65,7 @@ class BaseDrawer extends StatelessWidget {
                 color: secondaryBlue,
               ),
               title: Text(
-                "Consulta",
+                baseDrawerListScreenText,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),

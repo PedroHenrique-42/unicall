@@ -13,9 +13,6 @@ class BaseButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: secondaryBlue,
       ),
-      // onPressed: () {
-      //   Navigator.pushNamed(context, "/telaCadastro");
-      // },
       onPressed: function,
       child: Text(
         text,

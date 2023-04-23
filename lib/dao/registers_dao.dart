@@ -41,12 +41,10 @@ class RegistersDao {
 
   void remove(RegisterModel model) async {
     await firestore.collection("registros").doc(model.id).delete();
-
-    _list.remove(model);
   }
 
-  void edit(RegisterModel model) {
-    firestore.collection("registros").doc(model.id).update(
+  void edit(RegisterModel model) async {
+    await firestore.collection("registros").doc(model.id).update(
           RegisterModel.toMap(model),
         );
   }

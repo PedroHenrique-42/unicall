@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unicall/constants/routes.dart';
+import 'package:unicall/constants/strings.dart';
 import 'package:unicall/screens/register_screen.dart';
 import 'package:unicall/widgets/base/base_button.dart';
 import 'package:unicall/widgets/base/base_card.dart';
@@ -19,12 +19,12 @@ class HomeScreen extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset("assets/images/logo.jpeg"),
+            child: Image.asset(logoPath),
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.8,
             child: const Text(
-              "Oferecemos todos os meios necessários para a conexão de seu lar com o mundo!",
+              homeScreenSloganText,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
@@ -40,17 +40,17 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Clique aqui para cadastrar uma instalação",
+                  homeScreenInstructionsText,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 10),
-                BaseButton("Cadastrar", () {
+                BaseButton(homeScreenButtonText, () {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return RegisterScreen(action: "Cadastrar");
+                        return RegisterScreen(action: registerAction);
                       },
                     ),
                   );

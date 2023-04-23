@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unicall/constants/base_colors.dart';
+import 'package:unicall/constants/strings.dart';
 import 'package:unicall/dao/registers_dao.dart';
 import 'package:unicall/models/RegisterModel.dart';
 import 'package:unicall/screens/register_screen.dart';
@@ -16,12 +17,6 @@ class ListRegistersScreen extends StatefulWidget {
 class _ListRegistersScreenState extends State<ListRegistersScreen> {
   List<RegisterModel> list = [];
   final RegistersDao dao = RegistersDao.getInstance();
-
-  // @override
-  // void initState() {
-  //   refresh();
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +45,7 @@ class _ListRegistersScreenState extends State<ListRegistersScreen> {
                       ),
                       deleteFunc: () {
                         dao.remove(actualModel);
-                        refresh();
+
                         setState(() {});
                       },
                       editFunc: () {
@@ -58,7 +53,7 @@ class _ListRegistersScreenState extends State<ListRegistersScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => RegisterScreen(
-                              action: "Editar",
+                              action: editAction,
                               index: index,
                               model: actualModel,
                             ),
@@ -72,10 +67,11 @@ class _ListRegistersScreenState extends State<ListRegistersScreen> {
                 return const LinearProgressIndicator(color: primaryYellow);
               } else {
                 return Center(
-                    child: Text(
-                  "Nenhum registro",
-                  style: Theme.of(context).textTheme.titleSmall,
-                ));
+                  child: Text(
+                    listScreenNoRegistersText,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                );
               }
             }),
       ),
@@ -83,7 +79,7 @@ class _ListRegistersScreenState extends State<ListRegistersScreen> {
   }
 
   Future<bool> refresh() async {
-    list.clear();
+    list = [];
     list = await dao.loadRegisters();
 
     return true;

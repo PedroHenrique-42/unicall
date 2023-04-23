@@ -4,11 +4,13 @@ class BaseTextField extends StatelessWidget {
   final TextEditingController controller;
   final String text;
   final EdgeInsets? margin;
+  final String? Function(String? value) validator;
 
   const BaseTextField({
-    this.margin,
+    required this.validator,
     required this.controller,
     required this.text,
+    this.margin,
     Key? key,
   }) : super(key: key);
 
@@ -16,8 +18,8 @@ class BaseTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: margin,
-      height: 50,
       child: TextFormField(
+        validator:  validator,
         controller: controller,
         decoration: InputDecoration(
           filled: true,
