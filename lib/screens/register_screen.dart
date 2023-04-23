@@ -25,10 +25,10 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (model != null) {
-      _nameController.text = model!.name;
-      _addressController.text = model!.address;
-      _serviceController.text = model!.service;
-      _dateController.text = model!.date;
+      setFieldValue(_nameController, model!.name);
+      setFieldValue(_addressController, model!.address);
+      setFieldValue(_serviceController, model!.service);
+      setFieldValue(_dateController,  model!.date);
     }
 
     return BaseLayout(
@@ -114,7 +114,7 @@ class RegisterScreen extends StatelessWidget {
                         _dateController.text,
                       ));
 
-                      clearForm();
+                      // clearForm();
                       showSnackBar(context, "editado");
                     }
                   }
@@ -123,6 +123,15 @@ class RegisterScreen extends StatelessWidget {
             ]),
           ),
         ),
+      ),
+    );
+  }
+
+  setFieldValue(TextEditingController controller, String text) {
+    controller.value = TextEditingValue(
+      text: text,
+      selection: TextSelection.fromPosition(
+        TextPosition(offset: text.length),
       ),
     );
   }
