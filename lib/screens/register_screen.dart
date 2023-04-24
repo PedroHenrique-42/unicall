@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:unicall/constants/base_colors.dart';
 import 'package:unicall/constants/strings.dart';
 import 'package:unicall/dao/registers_dao.dart';
@@ -14,7 +15,8 @@ class RegisterScreen extends StatefulWidget {
   final String action;
   final int? index;
 
-  const RegisterScreen({this.model, required this.action, this.index, super.key});
+  const RegisterScreen(
+      {this.model, required this.action, this.index, super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -37,7 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     super.initState();
 
-    if(widget.model != null) {
+    if (widget.model != null) {
       setFieldValue(_nameController, widget.model!.name);
       setFieldValue(_addressController, widget.model!.address);
       setFieldValue(_complementController, widget.model!.complement);
@@ -65,6 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 margin: const EdgeInsets.only(top: 20, bottom: 20),
                 controller: _nameController,
                 text: "Digite o nome do cliente",
+                keyboardType: TextInputType.text,
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Campo obrigatório";
@@ -76,6 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 margin: const EdgeInsets.only(bottom: 20),
                 controller: _addressController,
                 text: "Digite o endereço",
+                keyboardType: TextInputType.text,
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Campo obrigatório";
@@ -87,6 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 margin: const EdgeInsets.only(bottom: 20),
                 controller: _complementController,
                 text: "Digite o complemento",
+                keyboardType: TextInputType.text,
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Campo obrigatório";
@@ -98,21 +103,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 margin: const EdgeInsets.only(bottom: 20),
                 controller: _serviceController,
                 text: "Digite o serviço",
+                readOnly: true,
+                keyboardType: TextInputType.text,
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Campo obrigatório";
                   }
                   return null;
                 },
+                suffixIcon: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    items: const [
+                      DropdownMenuItem(
+                        value: "Fibra",
+                        child: Text("Fibra"),
+                      ),
+                      DropdownMenuItem(
+                        value: "Banda-larga",
+                        child: Text("Banda-larga"),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      if (value != null) {
+                        _serviceController.text = value.toString();
+                      }
+                    },
+                  ),
+                ),
               ),
               BaseTextField(
                 margin: const EdgeInsets.only(bottom: 20),
                 controller: _dateController,
                 text: "Digite a data",
+                readOnly: true,
+                keyboardType: TextInputType.text,
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Campo obrigatório";
                   }
+                  return null;
+                },
+                onTap: () {
+                  showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now().add(const Duration(days: 1)),
+                    firstDate: DateTime.now().add(const Duration(days: 1)),
+                    lastDate: DateTime.now().add(const Duration(days: 365)),
+                  ).then((value) {
+                    if (value != null) {
+                      _dateController.text = DateFormat(
+                        DateFormat.YEAR_MONTH_DAY,
+                        'pt_Br',
+                      ).format(value);
+                    }
+                  });
+
                   return null;
                 },
               ),

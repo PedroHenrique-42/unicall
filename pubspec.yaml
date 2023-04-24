@@ -7,12 +7,15 @@ environment:
   sdk: '>=2.19.6 <3.0.0'
 
 dependencies:
-  cloud_firestore: ^4.5.2
-  firebase_core: ^2.10.0
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cloud_firestore: ^4.5.2
+  firebase_core: ^2.10.0
   scaffold_gradient_background: ^1.0.3+1
   uuid: ^3.0.7
+  intl:
 
 dev_dependencies:
   flutter_test:

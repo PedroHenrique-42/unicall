@@ -5,12 +5,20 @@ class BaseTextField extends StatelessWidget {
   final String text;
   final EdgeInsets? margin;
   final String? Function(String? value) validator;
+  final String? Function()? onTap;
+  final bool? readOnly;
+  final Widget? suffixIcon;
+  final TextInputType keyboardType;
 
   const BaseTextField({
     required this.validator,
     required this.controller,
     required this.text,
+    required this.keyboardType,
     this.margin,
+    this.onTap,
+    this.readOnly,
+    this.suffixIcon,
     Key? key,
   }) : super(key: key);
 
@@ -19,10 +27,13 @@ class BaseTextField extends StatelessWidget {
     return Container(
       margin: margin,
       child: TextFormField(
-
-        validator:  validator,
+        keyboardType: keyboardType,
+        readOnly: readOnly ?? false,
+        onTap: onTap,
+        validator: validator,
         controller: controller,
         decoration: InputDecoration(
+          suffixIcon: suffixIcon,
           filled: true,
           fillColor: Colors.white,
           labelText: text,
