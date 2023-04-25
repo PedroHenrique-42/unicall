@@ -13,12 +13,13 @@ class RegistersDao {
   Future<List<RegisterModel>> loadRegisters() async {
     _list.clear();
 
-    var fireBaseList = await firestore.collection(firestoreCollectionPath).get();
+    var fireBaseList =
+        await firestore.collection(firestoreCollectionPath).get();
 
     for (var doc in fireBaseList.docs) {
       _list.add(RegisterModel.fromMap(doc.data()));
     }
-
+    print("Chave $_list");
     return _list;
   }
 
@@ -31,23 +32,23 @@ class RegistersDao {
   }
 
   void add(RegisterModel model) {
-    firestore.collection("registros").doc(model.id).set({
+    firestore.collection(firestoreCollectionPath).doc(model.id).set({
       "id": model.id,
       "nomeCliente": model.name,
       "enderecoCliente": model.address,
-      "complemento" : model.complement,
+      "complemento": model.complement,
       "tipoInstalacao": model.service,
       "dataInstalacao": model.date,
     });
   }
 
   void remove(RegisterModel model) async {
-    await firestore.collection("registros").doc(model.id).delete();
+    await firestore.collection(firestoreCollectionPath).doc(model.id).delete();
   }
 
   void edit(RegisterModel model) async {
-    await firestore.collection("registros").doc(model.id).update(
+    await firestore.collection(firestoreCollectionPath).doc(model.id).update(
           RegisterModel.toMap(model),
-        ).then((value) => print("editado"));
+        );
   }
 }
