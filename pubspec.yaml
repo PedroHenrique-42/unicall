@@ -15,6 +15,7 @@ dependencies:
   firebase_core: ^2.10.0
   scaffold_gradient_background: ^1.0.3+1
   uuid: ^3.0.7
+  brasil_fields: ^1.9.0
   intl:
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BaseTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -9,6 +10,7 @@ class BaseTextField extends StatelessWidget {
   final bool? readOnly;
   final Widget? suffixIcon;
   final TextInputType keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
 
   const BaseTextField({
     required this.validator,
@@ -19,6 +21,7 @@ class BaseTextField extends StatelessWidget {
     this.onTap,
     this.readOnly,
     this.suffixIcon,
+    this.inputFormatters,
     Key? key,
   }) : super(key: key);
 
@@ -27,6 +30,7 @@ class BaseTextField extends StatelessWidget {
     return Container(
       margin: margin,
       child: TextFormField(
+        inputFormatters: inputFormatters,
         keyboardType: keyboardType,
         readOnly: readOnly ?? false,
         onTap: onTap,

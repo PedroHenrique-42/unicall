@@ -1,4 +1,6 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:unicall/constants/base_colors.dart';
 import 'package:unicall/constants/strings.dart';
@@ -132,34 +134,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               BaseTextField(
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  DataInputFormatter(),
+                ],
                 margin: const EdgeInsets.only(bottom: 20),
                 controller: _dateController,
                 text: "Digite a data",
-                readOnly: true,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.number,
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Campo obrigatório";
                   }
-                  return null;
-                },
-                onTap: () {
-                  showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now().add(const Duration(days: 1)),
-                    firstDate: DateTime.now().add(const Duration(days: 1)),
-                    lastDate: DateTime.now().add(const Duration(days: 365)),
-                  ).then((value) {
-                    if (value != null) {
-                      _dateController.text = DateFormat(
-                        DateFormat.YEAR_MONTH_DAY,
-                        'pt_Br',
-                      ).format(value);
-                    }
-                  });
+
+                  DateFormat brazilianDateFormat = DateFormat('dd/MM/yyyy');
+                  DateTime data = brazilianDateFormat.parse(value);
+
+                  if (data.isBefore(DateTime.now()) || data.isAfter(DateTime.now().add(const Duration(days: 30)))) {
+                    return "Data inválida";
+                  }
 
                   return null;
                 },
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.date_range_sharp),
+                  onPressed: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now().add(const Duration(days: 1)),
+                      firstDate: DateTime.now().add(const Duration(days: 1)),
+                      lastDate: DateTime.now().add(const Duration(days: 30)),
+                    ).then((value) {
+                      if (value != null) {
+                        _dateController.text = DateFormat(
+                          DateFormat.YEAR_MONTH_DAY,
+                          'pt_Br',
+                        ).format(value);
+                      }
+                    });
+                  },
+                ),
               ),
               SizedBox(
                 width: 120,
