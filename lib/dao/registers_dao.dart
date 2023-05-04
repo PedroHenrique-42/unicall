@@ -13,13 +13,12 @@ class RegistersDao {
   Future<List<RegisterModel>> loadRegisters() async {
     _list.clear();
 
-    var fireBaseList =
-        await firestore.collection(firestoreCollectionPath).get();
+    await firestore.collection(firestoreCollectionPath).get().then((collection) {
+      for (var doc in collection.docs) {
+        _list.add(RegisterModel.fromMap(doc.data()));
+      }
+    });
 
-    for (var doc in fireBaseList.docs) {
-      _list.add(RegisterModel.fromMap(doc.data()));
-    }
-    print("Chave $_list");
     return _list;
   }
 
