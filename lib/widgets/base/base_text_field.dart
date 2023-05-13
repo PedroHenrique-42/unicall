@@ -5,7 +5,7 @@ class BaseTextField extends StatelessWidget {
   final TextEditingController controller;
   final String text;
   final EdgeInsets? margin;
-  final String? Function(String? value) validator;
+  final String? Function(String? value)? validator;
   final String? Function()? onTap;
   final bool? readOnly;
   final Widget? suffixIcon;
@@ -13,10 +13,10 @@ class BaseTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
 
   const BaseTextField({
-    required this.validator,
     required this.controller,
     required this.text,
     required this.keyboardType,
+    this.validator,
     this.margin,
     this.onTap,
     this.readOnly,

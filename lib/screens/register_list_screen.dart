@@ -48,8 +48,14 @@ class _ListRegistersScreenState extends State<ListRegistersScreen> {
                             contentText: actualModel.address,
                           ),
                           BaseRichText(
-                            baseText: "Complemento (Número, apto): ",
-                            contentText: actualModel.complement,
+                            baseText: "Número do cliente: ",
+                            contentText: actualModel.number,
+                          ),
+                          BaseRichText(
+                            baseText: "Complemento: ",
+                            contentText: actualModel.complement.isEmpty
+                                ? "Não informado"
+                                : actualModel.complement,
                           ),
                           BaseRichText(
                             baseText: "Serviço: ",
@@ -68,7 +74,7 @@ class _ListRegistersScreenState extends State<ListRegistersScreen> {
                         );
 
                         if (remove) {
-                          dao.remove(actualModel);
+                          dao.removeRegister(actualModel);
                           setState(() {});
                         }
                       },

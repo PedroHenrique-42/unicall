@@ -31,6 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final TextEditingController _addressController = TextEditingController();
 
+  final TextEditingController _numberController = TextEditingController();
+
   final TextEditingController _complementController = TextEditingController();
 
   final TextEditingController _serviceController = TextEditingController();
@@ -44,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (widget.model != null) {
       setFieldValue(_nameController, widget.model!.name);
       setFieldValue(_addressController, widget.model!.address);
+      setFieldValue(_numberController, widget.model!.number);
       setFieldValue(_complementController, widget.model!.complement);
       setFieldValue(_serviceController, widget.model!.service);
       setFieldValue(_dateController, widget.model!.date);
@@ -91,9 +94,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               BaseTextField(
                 margin: const EdgeInsets.only(bottom: 20),
-                controller: _complementController,
-                text: "Digite o complemento",
-                keyboardType: TextInputType.text,
+                controller: _numberController,
+                text: "Digite o número",
+                keyboardType: TextInputType.number,
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return "Campo obrigatório";
@@ -103,8 +106,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               BaseTextField(
                 margin: const EdgeInsets.only(bottom: 20),
+                controller: _complementController,
+                text: "Digite o complemento",
+                keyboardType: TextInputType.text,
+              ),
+              BaseTextField(
+                margin: const EdgeInsets.only(bottom: 20),
                 controller: _serviceController,
-                text: "Digite o serviço",
+                text: "Escolha o serviço",
                 readOnly: true,
                 keyboardType: TextInputType.text,
                 validator: (String? value) {
@@ -150,7 +159,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   DateFormat brazilianDateFormat = DateFormat('dd/MM/yyyy');
                   DateTime data = brazilianDateFormat.parse(value);
 
-                  if (data.isBefore(DateTime.now()) || data.isAfter(DateTime.now().add(const Duration(days: 30)))) {
+                  if (data.isBefore(DateTime.now()) ||
+                      data.isAfter(
+                          DateTime.now().add(const Duration(days: 30)))) {
                     return "Data inválida";
                   }
 
@@ -166,10 +177,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       lastDate: DateTime.now().add(const Duration(days: 30)),
                     ).then((value) {
                       if (value != null) {
-                        _dateController.text = DateFormat(
-                          DateFormat.YEAR_MONTH_DAY,
-                          'pt_Br',
-                        ).format(value);
+                        DateFormat brazilianDateFormat = DateFormat('dd/MM/yyyy');
+                        final date = DateTime.parse(value.toString());
+                        _dateController.text = brazilianDateFormat.format(date);
                       }
                     });
                   },
@@ -182,10 +192,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     RegistersDao dao = RegistersDao.getInstance();
 
                     if (widget.action == registerAction) {
-                      dao.add(RegisterModel(
+                      dao.addRegister(RegisterModel(
                         id: const Uuid().v1().toString(),
                         name: _nameController.text,
                         address: _addressController.text,
+                        number: _numberController.text,
                         complement: _complementController.text,
                         service: _serviceController.text,
                         date: _dateController.text,
@@ -194,10 +205,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       clearForm();
                       showSnackBar(context, "cadastrado");
                     } else if (widget.action == editAction) {
-                      dao.edit(RegisterModel(
+                      dao.editRegister(RegisterModel(
                         id: widget.model!.id,
                         name: _nameController.text,
                         address: _addressController.text,
+                        number: _numberController.text,
                         complement: _complementController.text,
                         service: _serviceController.text,
                         date: _dateController.text,
@@ -227,6 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   clearForm() {
     _nameController.text = "";
     _addressController.text = "";
+    _numberController.text = "";
     _complementController.text = "";
     _serviceController.text = "";
     _dateController.text = "";

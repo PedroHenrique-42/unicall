@@ -4,50 +4,50 @@ import 'package:unicall/models/RegisterModel.dart';
 
 class RegistersDao {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final List<RegisterModel> _list = [];
+  final List<RegisterModel> _registersList = [];
 
   static final RegistersDao _instance = RegistersDao();
 
   static RegistersDao getInstance() => _instance;
 
   Future<List<RegisterModel>> loadRegisters() async {
-    _list.clear();
+    _registersList.clear();
 
-    await firestore.collection(firestoreCollectionPath).get().then((collection) {
+    await firestore
+        .collection(firestoreCollectionPath)
+        .get()
+        .then((collection) {
       for (var doc in collection.docs) {
-        _list.add(RegisterModel.fromMap(doc.data()));
+        _registersList.add(RegisterModel.fromMap(doc.data()));
       }
     });
 
-    return _list;
+    return _registersList;
   }
 
-  int count() {
-    return _list.length;
+  RegisterModel getRegister(int index) {
+    return _registersList[index];
   }
 
-  RegisterModel get(int index) {
-    return _list[index];
-  }
-
-  void add(RegisterModel model) {
+  void addRegister(RegisterModel model) {
     firestore.collection(firestoreCollectionPath).doc(model.id).set({
       "id": model.id,
       "nomeCliente": model.name,
       "enderecoCliente": model.address,
+      "numeroCliente": model.number,
       "complemento": model.complement,
       "tipoInstalacao": model.service,
       "dataInstalacao": model.date,
     });
   }
 
-  void remove(RegisterModel model) async {
+  void removeRegister(RegisterModel model) async {
     await firestore.collection(firestoreCollectionPath).doc(model.id).delete();
   }
 
-  void edit(RegisterModel model) async {
+  void editRegister(RegisterModel model) async {
     await firestore.collection(firestoreCollectionPath).doc(model.id).update(
           RegisterModel.toMap(model),
-        );
+    );
   }
 }
